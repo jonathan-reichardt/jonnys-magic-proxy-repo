@@ -1,32 +1,61 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ns2:Beteiligter xmlns:ns2="http://www.itzbund.de/bsdd/v11" xmlns:ns3="http://www.itzbund.de/bsdd/v11/beteiligter" xmlns:ns7="http://www.itzbund.de/bsdd/v11/commondatatypes">
-    <ns7:BSDDID>130053</ns7:BSDDID>
-    <ns7:Versionsnummer>4711</ns7:Versionsnummer>
-    <ns3:Fachverfahrensreferenz>
-        <ns3:Fachverfahren>ATLAS</ns3:Fachverfahren>
-        <ns7:FachverfahrensspezifischerIdentifikator>DE024872525</ns7:FachverfahrensspezifischerIdentifikator>
-    </ns3:Fachverfahrensreferenz>
-    <ns3:Kerndatensatz>
-        <ns7:NameFirmenbezeichnung>Wakan OHG</ns7:NameFirmenbezeichnung>
-        <ns7:Vorname>Anouk</ns7:Vorname>
-        <ns7:Nachname>Ritz</ns7:Nachname>
-        <ns7:Anschrift>
-            <ns7:Strasse>Schwarzastr.</ns7:Strasse>
-            <ns7:Hausnummer>83</ns7:Hausnummer>
-            <ns7:Plz>89998</ns7:Plz>
-            <ns7:Ort>Groß Kay</ns7:Ort>
-            <ns7:Land>DE</ns7:Land>
-        </ns7:Anschrift>
-        <ns7:EmailAdresse>hgyvuxpqdp@itzbund.de</ns7:EmailAdresse>
-        <ns7:Telefonnummer>(0019) 161134701</ns7:Telefonnummer>
-        <ns7:GeburtsGruendungsdatum>Fri Jul 03 17:06:58 CEST 1992</ns7:GeburtsGruendungsdatum>
-        <ns7:SteuerIdentifikationsnummer>04920407925</ns7:SteuerIdentifikationsnummer>
-        <ns7:ZustaendigesFinanzamt>6938</ns7:ZustaendigesFinanzamt>
-        <ns7:BemerkungsfeldInsolvenzLiquidation>Use the first moments in study. You may miss an opportunity for quick victory this way, but the moments of study are insurance of success. Take your time and be sure.</ns7:BemerkungsfeldInsolvenzLiquidation>
-        <ns7:Niederlassung>false</ns7:Niederlassung>
-    </ns3:Kerndatensatz>
-    <ns7:Quelle>Pelennor Fields</ns7:Quelle>
-    <ns7:Erfasser>Thufir Hawat</ns7:Erfasser>
-    <ns7:Pruefer>Legolas</ns7:Pruefer>
-    <ns3:Auskunftssperre>true</ns3:Auskunftssperre>
-</ns2:Beteiligter>
+Beteiligter:
+  type: object
+  properties:
+    BSDDID:
+      type: string
+    Versionsnummer:
+      type: string
+    Fachverfahrensreferenz:
+      type: object
+      properties:
+        Fachverfahren:
+          type: string
+        FachverfahrensspezifischerIdentifikator:
+          type: string
+    Kerndatensatz:
+      type: object
+      properties:
+        NameFirmenbezeichnung:
+          type: string
+        Vorname:
+          type: string
+        Nachname:
+          type: string
+        Anschrift:
+          type: object
+          properties:
+            Strasse:
+              type: string
+            Hausnummer:
+              type: string
+            Plz:
+              type: string
+            Ort:
+              type: string
+            Land:
+              type: string
+        EmailAdresse:
+          type: string
+          format: email
+        Telefonnummer:
+          type: string
+        GeburtsGruendungsdatum:
+          type: string
+          format: date-time
+        SteuerIdentifikationsnummer:
+          type: string
+        ZustaendigesFinanzamt:
+          type: string
+        BemerkungsfeldInsolvenzLiquidation:
+          type: string
+        Niederlassung:
+          type: boolean
+    Quelle:
+      type: string
+    Erfasser:
+      type: string
+    Pruefer:
+      type: string
+    Auskunftssperre:
+      type: boolean
+
