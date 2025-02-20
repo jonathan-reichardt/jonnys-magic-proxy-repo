@@ -1,0 +1,25 @@
+$ mirror
+remote: Enumerating objects: 5, done.
+remote: Counting objects: 100% (5/5), done.
+remote: Compressing objects: 100% (3/3), done.
+remote: Total 3 (delta 2), reused 0 (delta 0), pack-reused 0 (from 0)
+Unpacking objects: 100% (3/3), 329 bytes | 10.00 KiB/s, done.
+From https://git.entw.zerberuszbm.zoll.itzbund.net/zbm-dev/zbm-adapter-bsdd
+ * [new branch]      sync-test  -> origin/sync-test
+Spiegle Branch: main
+Everything up-to-date
+Spiegle Branch: sync-test
+error: The destination you provided is not a full refname (i.e.,
+starting with "refs/"). We tried to guess what you meant by:
+
+- Looking for a ref that matches 'sync-test' on the remote side.
+- Checking if the <src> being pushed ('refs/remotes/origin/sync-test')
+  is a ref in "refs/{heads,tags}/". If so we add a corresponding
+  refs/{heads,tags}/ prefix on the remote side.
+
+Neither worked, so we gave up. You must fully qualify the ref.
+hint: The <src> part of the refspec is a commit object.
+hint: Did you mean to create a new branch by pushing to
+hint: 'refs/remotes/origin/sync-test:refs/heads/sync-test'?
+error: failed to push some refs to 'https://zbm.cloud.itz.in.bund.de/scm/repo/zbm/zbm-adapter-bsdd'
+
