@@ -1,0 +1,139 @@
+Anleitung: Git Repository zwischen zwei Remotes spiegeln
+
+Voraussetzungen
+
+Ein lokales Git-Repository
+Zwei Remotes:
+
+origin: Haupt-Repository auf GitLab
+scm: Zweites Git-Repository auf einem anderen SCM-Server
+Zugriff auf beide Server von deinem lokalen Rechner
+
+1️⃣ Remotes hinzufügen
+
+Falls die Remotes noch nicht konfiguriert sind, füge sie mit folgenden Befehlen hinzu:
+
+# GitLab als Remote hinzufügen
+git remote add origin <GITLAB-URL>
+
+# SCM-Server als Remote hinzufügen
+git remote add scm <SCM-URL>
+
+Überprüfe die Remotes mit:
+
+git remote -v
+
+2️⃣ Änderungen von GitLab abrufen
+
+Hole alle Branches von GitLab:
+
+git fetch origin
+
+Falls du nur einen bestimmten Branch spiegeln möchtest:
+
+git fetch origin <branch-name>
+
+3️⃣ Branches auf den SCM-Server pushen
+
+Um alle Branches auf den SCM-Server zu übertragen:
+
+git push scm refs/remotes/origin/*:refs/heads/*
+
+Falls du nur bestimmte Branches spiegeln willst:
+
+git push scm origin/main:main
+git push scm origin/dev:dev
+
+4️⃣ Automatisierung mit einem Skript
+
+Falls du das regelmäßig ausführen möchtest, erstelle ein Skript:
+
+#!/bin/bash
+
+# Änderungen von GitLab abrufen
+git fetch origin
+
+# Alle Branches spiegeln
+for branch in $(git branch -r | grep "origin/" | sed 's/ *origin\///'); do
+    echo "Spiegle Branch: $branch"
+    git push scm origin/$branch:$branch
+done
+
+Speichere das Skript z. B. als sync_repos.sh, mache es ausführbar:
+
+chmod +x sync_repos.sh
+
+Führe es aus:
+
+./sync_repos.sh
+
+Tags ebenfalls spiegeln
+
+Falls du auch Tags übertragen möchtest:
+
+git push scm --tags
+
+5️⃣ Automatische Synchronisation
+
+Du kannst das Skript regelmäßig mit cron oder systemd.timer ausführen, um die Repositories automatisch zu synchronisieren.
+
+6️⃣ Unerwartete Änderungen auf SCM zurück zu GitLab synchronisieren
+
+Falls es unerwartete Änderungen im SCM gibt und du sie mit GitLab synchronisieren möchtest:
+
+1️⃣ Änderungen von beiden Remotes abrufen
+
+git fetch origin
+git fetch scm
+
+2️⃣ Temporären Branch für das Zusammenführen erstellen
+
+git checkout -b sync-merge origin/main
+
+Jetzt die Änderungen vom SCM-Server einfügen:
+
+git merge scm/main
+
+Falls es Konflikte gibt, löse sie manuell:
+
+git status
+git mergetool  # Optional
+
+Dann committen:
+
+git commit -m "Merged changes from SCM"
+
+3️⃣ Änderungen zurück nach GitLab pushen
+
+git push gitlab sync-merge:main
+
+Falls neue Änderungen in gitlab/main dazugekommen sind, wiederhole Schritt 1 & 2.
+
+Automatisiertes Skript zur Synchronisation
+
+Falls du das automatisieren möchtest, kannst du folgendes Skript verwenden:
+
+#!/bin/bash
+
+# Fetch latest updates
+git fetch origin
+git fetch scm
+
+# Create a temporary branch for merging
+git checkout -b sync-merge origin/main
+
+# Merge changes from SCM
+git merge scm/main
+
+# Check for conflicts
+if [ $? -ne 0 ]; then
+    echo "Merge conflicts detected! Please resolve manually."
+    exit 1
+fi
+
+# Push merged changes back to GitLab
+git push gitlab sync-merge:main
+
+# Clean up
+git checkout main
+git branch -D sync-merge
